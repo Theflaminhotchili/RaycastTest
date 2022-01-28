@@ -39,10 +39,10 @@ public class TestRunner {
         //sphereList.add(new Sphere(new Vector3(4,0,20),1,green));
         //sphereList.add(new Sphere(new Vector3(-6,2,30),1,red));
         //sphereList.add(new Sphere(new Vector3(2,-5,50),5,blue));
-        //sphereList.add(new Sphere(new Vector3(-2,1005,0),1000,gray));
+        sphereList.add(new Sphere(new Vector3(-2,1005,0),1000,gray));
         meshList.add(new Mesh("src/rabbit.obj",blue,new Vector3(0,50,300),new Vector3(90,180,0)));
 
-        //meshList.add(new Mesh("src/cube.obj",red,new Vector3(-10,-1,30),new Vector3(45,45,45)));
+        meshList.add(new Mesh("src/cube.obj",red,new Vector3(-10,-1,30),new Vector3(45,45,45)));
 
         System.out.println(new Vector3(22,18,79).createRotationMatrix());
 
