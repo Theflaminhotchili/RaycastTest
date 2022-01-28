@@ -10,7 +10,7 @@ public class Mesh {
     double albedoVal = 0.17;
     Triangle[] tris;
     Material material;
-    public Mesh(String file, Material mat,Vector3 translation,Vector3 rotation){
+    public Mesh(String file, Material mat,Vector3 translation,Vector3 rotation,Vector3 scale){
         Matrix rotMatrix = rotation.createRotationMatrix();
         color = mat.getColor();
         material=mat;
@@ -55,6 +55,7 @@ public class Mesh {
                             }
                         }
                         v.rotate(rotMatrix);
+                        v.scaleByMatrix(scale);
                         vertices.add(v);
 
                         //System.out.println(vertex.size());

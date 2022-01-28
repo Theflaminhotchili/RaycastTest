@@ -169,6 +169,21 @@ public class Vector3 {
         return output;
     }
 
+    public void scaleByMatrix(Vector3 scaleVector){
+        Matrix posMatrix = new Matrix();
+        posMatrix.setMatrix(new double[][]{{x,y,z}});
+        Matrix scaleMatrix = new Matrix();
+        scaleMatrix.setMatrix(new double[][]{{scaleVector.getX(),0,0},{0,scaleVector.getY(),0},{0,0,scaleVector.getZ()}});
+        //for (int i = 0; i < 3; i++) {
+          //  scaleMatrix.setIndex(i,i,scaleVector.getCoords()[i]);
+        //}
+
+        double[] newCoords = scaleMatrix.multiplyMatrix(posMatrix).getMatrix()[0];
+        x = newCoords[0];
+        y = newCoords[1];
+        z = newCoords[2];
+    }
+
     public void rotate(Matrix rotMatrix){
         Matrix posMatrix = new Matrix();
         posMatrix.setMatrix(new double[][]{{x,y,z}});

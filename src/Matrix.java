@@ -23,6 +23,10 @@ public class Matrix {
         return matrix[col][row];
     }
 
+    public void setIndex(int row, int col, double value){
+        matrix[col][row]=value;
+    }
+
     @Override
     public String toString() {
         for (int i = 0; i < matrix[0].length; i++) {//col
@@ -86,6 +90,23 @@ public class Matrix {
         Matrix returnM = new Matrix(matrix[0].length,matrix2.length);
         returnM.setMatrix(output);
         return returnM;
+    }
+
+    public int getRows(){
+        return matrix[0].length;
+    }
+
+    public int getColumns(){
+        return matrix.length;
+    }
+
+    public Vector3 toVector3(){
+        if (getColumns()==3 && getRows()==1){
+            return new Vector3(getIndex(0,0),getIndex(0,1),getIndex(0,2) );
+        }else if (getColumns()==1&&getRows()==3){
+            return new Vector3(matrix[0][0],matrix[0][1],matrix[0][2]);
+        }
+        return null;
     }
 
 }
