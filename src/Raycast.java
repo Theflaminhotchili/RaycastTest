@@ -266,7 +266,6 @@ public class Raycast {
     }
 
     public double MollerTrumboreIntersection(Triangle tri){
-
         return 0;
     }
 
