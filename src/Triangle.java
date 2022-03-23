@@ -82,6 +82,21 @@ public class Triangle {
         }
     }
 
+    public Vector3 getPosition(){
+        return new Vector3((verts[0].getX()+verts[1].getX()+verts[2].getX())/3.0,
+            (verts[0].getY()+verts[1].getY()+verts[2].getY())/3.0,
+                (verts[0].getX()+verts[1].getX()+verts[2].getX())/3.0);
+    }
+
+    public boolean inBounds(Vector3 minBounds, Vector3 maxBounds){
+        Vector3 myPos = getPosition();
+        if(myPos.getX()>=minBounds.getX()&&myPos.getX()<maxBounds.getX()){
+            if (myPos.getY()>=minBounds.getY()&&myPos.getY()<maxBounds.getY())
+                if (myPos.getZ()>=minBounds.getZ()&&myPos.getX()<maxBounds.getZ())
+                    return true;
+        }
+        return false;
+    }
 
     public String toString() {
         return "Triangle{" +

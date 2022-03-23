@@ -7,12 +7,16 @@ public class Mesh {
     ArrayList <Triangle> triangles;
     ArrayList <Vector3> normals;
     Vector3 color;
+    Vector3 minCoords;
+    Vector3 maxCoords;
     double albedoVal = 0.17;
     Triangle[] tris;
     Material material;
     public Mesh(String file, Material mat,Vector3 translation,Vector3 rotation,Vector3 scale){
         Matrix rotMatrix = rotation.createRotationMatrix();
         color = mat.getColor();
+        maxCoords = new Vector3(Double.NEGATIVE_INFINITY,Double.NEGATIVE_INFINITY,Double.NEGATIVE_INFINITY);
+        minCoords = new Vector3(Double.POSITIVE_INFINITY,Double.POSITIVE_INFINITY,Double.POSITIVE_INFINITY);
         material=mat;
         if (!file.contains(".obj")){return;}
         try {
@@ -57,6 +61,8 @@ public class Mesh {
                         v.rotate(rotMatrix);
                         v.scaleByMatrix(scale);
                         vertices.add(v);
+                        maxCoords.getGreatestComponents(v);
+                        minCoords.getLeastComponents(v);
 
                         //System.out.println(vertex.size());
                     }else if (data.charAt(0)=='v' && data.charAt(1)=='n') {
@@ -147,6 +153,8 @@ public class Mesh {
         }
         for (int i = 0; i < tris.length; i++) {
             tris[i].translate(translation);
+            maxCoords.addVector(translation);
+            minCoords.addVector(translation);
             //System.out.println(tris[i]);
         }
 

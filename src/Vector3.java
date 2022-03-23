@@ -145,6 +145,18 @@ public class Vector3 {
         return new Vector3(x * otherVector.getX(), y * otherVector.getY(), z * otherVector.getZ());
     }
 
+    public void getGreatestComponents(Vector3 otherVector){
+        x = Math.max(x,otherVector.getX());
+        y = Math.max(y, otherVector.getY());
+        z = Math.max(z,otherVector.getZ());
+    }
+
+    public void getLeastComponents(Vector3 otherVector){
+        x = Math.min(x,otherVector.getX());
+        y = Math.min(y, otherVector.getY());
+        z = Math.min(z,otherVector.getZ());
+    }
+
     public Vector3 addComponents(Vector3 otherVector){
         //use this to add the corresponding values in each vector
         return new Vector3(x + otherVector.getX(), y + otherVector.getY(), z + otherVector.getZ());

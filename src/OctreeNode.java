@@ -6,9 +6,9 @@ public class OctreeNode {
     int type;
     OctreeNode myParent;
 
-    final int IS_TRUNK = 0;
-    final int IS_BRANCH = 1;
-    final int IS_LEAF = 2;
+    static final int IS_TRUNK = 0;
+    static final int IS_BRANCH = 1;
+    static final int IS_LEAF = 2;
 
     public OctreeNode(){
         myBranches = new OctreeNode[8];
