@@ -138,7 +138,7 @@ public class Mesh {
                         tri.setAlbedoVal(0.17);
                         triangles.add(tri);
                         //System.out.println(triangles.size());
-                        System.out.println(triangles.get(0));
+                        //System.out.println(triangles.get(0));
                     }
                 }
                 tris = new Triangle[triangles.size()];
@@ -157,6 +157,7 @@ public class Mesh {
             minCoords.addVector(translation);
             //System.out.println(tris[i]);
         }
+        new SpatialOctreeNode(minCoords,maxCoords,this);
 
     }
 

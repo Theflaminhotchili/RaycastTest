@@ -91,9 +91,10 @@ public class Triangle {
     public boolean inBounds(Vector3 minBounds, Vector3 maxBounds){
         Vector3 myPos = getPosition();
         if(myPos.getX()>=minBounds.getX()&&myPos.getX()<maxBounds.getX()){
-            if (myPos.getY()>=minBounds.getY()&&myPos.getY()<maxBounds.getY())
-                if (myPos.getZ()>=minBounds.getZ()&&myPos.getX()<maxBounds.getZ())
+            if (myPos.getY()>=minBounds.getY()&&myPos.getY()<maxBounds.getY()) {
+                if (myPos.getZ() >= minBounds.getZ() && myPos.getZ() < maxBounds.getZ())
                     return true;
+            }
         }
         return false;
     }

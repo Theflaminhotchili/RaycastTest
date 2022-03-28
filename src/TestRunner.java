@@ -37,17 +37,20 @@ public class TestRunner {
         //sphereList = new ArrayList<Sphere>();
         //sphereList.add(new Sphere(new Vector3(-12,0,40),5, red));
         //sphereList.add(new Sphere(new Vector3(4,0,20),1,green));
-        sphereList.add(new Sphere(new Vector3(-6,2,30),1,red));
+        //sphereList.add(new Sphere(new Vector3(-6,-12,50),20,red));
         //sphereList.add(new Sphere(new Vector3(2,-5,50),5,blue));
         sphereList.add(new Sphere(new Vector3(-2,1005,0),1000,gray));
         //meshList.add(new Mesh("src/rabbit.obj",blue,new Vector3(0,-0,70),
         //        new Vector3(90,180,0),new Vector3(0.1,0.1,0.1)));
 
-        meshList.add(new Mesh("src/cube.obj",blue,new Vector3(-10,-1,30),
-                new Vector3(45,45,45),new Vector3(1,1,1)));
+        //meshList.add(new Mesh("src/cube.obj",blue,new Vector3(-10,-1,30),
+        //new Vector3(45,45,45),new Vector3(1,1,1)));
 
-        meshList.add(new Mesh("src/cube.obj",red,new Vector3(5,-1,20),
-                new Vector3(30,45,15),new Vector3(1,0.5,1)));
+        //meshList.add(new Mesh("src/cube.obj",gray,new Vector3(5,-1,20),
+        //new Vector3(30,45,15),new Vector3(1,0.5,1)));
+
+        meshList.add(new Mesh("src/rabbit.obj",blue,new Vector3(0,0,400),
+                new Vector3(0,0,0),new Vector3(1,1,1)));
 
         System.out.println(new Vector3(22,18,79).createRotationMatrix());
 

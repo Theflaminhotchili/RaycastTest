@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class OctreeNode {
@@ -25,9 +26,17 @@ public class OctreeNode {
         if (myBranches.length == 8){
             this.myBranches = myBranches;
         }else if (myBranches.length<8){
+            this.myBranches = new OctreeNode[myBranches.length];
             for (int i = 0; i < myBranches.length; i++) {
                 this.myBranches[i] = myBranches[i];
             }
+        }
+    }
+
+    public void setMyBranches(ArrayList<OctreeNode> myBranches) {
+        this.myBranches = new OctreeNode[myBranches.size()];
+        for (int i = 0; i < myBranches.size(); i++) {
+            this.myBranches[i] = myBranches.get(i);
         }
     }
 
