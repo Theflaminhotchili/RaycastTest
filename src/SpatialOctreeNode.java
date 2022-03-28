@@ -69,6 +69,7 @@ public class SpatialOctreeNode extends OctreeNode{
                 ((SpatialOctreeNode) branches.get(i)).navigateDown();
             }
         }
+        System.out.println(branches.size());
         setMyBranches(branches);
 
     }
