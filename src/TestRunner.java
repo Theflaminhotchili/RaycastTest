@@ -49,7 +49,7 @@ public class TestRunner {
         //meshList.add(new Mesh("src/cube.obj",gray,new Vector3(5,-1,20),
         //new Vector3(30,45,15),new Vector3(1,0.5,1)));
 
-        meshList.add(new Mesh("src/cube.obj",blue,new Vector3(0,0,400),
+        meshList.add(new Mesh("src/rabbit.obj",blue,new Vector3(0,0,0),
                 new Vector3(0,0,0),new Vector3(1,1,1)));
 
         System.out.println(new Vector3(22,18,79).createRotationMatrix());

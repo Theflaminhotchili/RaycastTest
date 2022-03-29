@@ -1,6 +1,7 @@
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Vector3 {
     private double x, y, z,mag;
@@ -120,6 +121,19 @@ public class Vector3 {
         }else{return false;}
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector3 vector3 = (Vector3) o;
+        return Double.compare(vector3.getX(), x) == 0 && Double.compare(vector3.getY(), y) == 0 && Double.compare(vector3.getZ(), z) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
+    }
+
     public void setEqualTo(Vector3 otherVector){
         x = otherVector.getX();
         y = otherVector.getY();
@@ -151,6 +165,14 @@ public class Vector3 {
         z = Math.max(z,otherVector.getZ());
     }
 
+    public boolean isGreater(Vector3 otherVector){
+        return (otherVector.getX()<=x&&otherVector.getY()<=y&&otherVector.getZ()<=z);
+    }
+
+    public boolean isLess(Vector3 otherVector){
+        return (otherVector.getX()>=x&&otherVector.getY()>=y&&otherVector.getZ()>=z);
+    }
+
     public void getLeastComponents(Vector3 otherVector){
         x = Math.min(x,otherVector.getX());
         y = Math.min(y, otherVector.getY());
@@ -160,6 +182,11 @@ public class Vector3 {
     public Vector3 addComponents(Vector3 otherVector){
         //use this to add the corresponding values in each vector
         return new Vector3(x + otherVector.getX(), y + otherVector.getY(), z + otherVector.getZ());
+    }
+
+    public Vector3 addComponents(double x, double y, double z){
+        //use this to add the corresponding values in each vector
+        return new Vector3(this.x + x, this.y + y, this.z +z);
     }
 
     public Vector3 crossProduct(Vector3 otherVector){

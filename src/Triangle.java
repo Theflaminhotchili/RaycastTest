@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Triangle {
     Vector3[] verts;
@@ -76,6 +77,23 @@ public class Triangle {
 
     //======================================================================
     //Function
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Triangle triangle = (Triangle) o;
+        return Arrays.equals(getVerts(), triangle.getVerts()) && Objects.equals(getNormal(), triangle.getNormal()) && Objects.equals(color, triangle.color);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getNormal(), color);
+        result = 31 * result + Arrays.hashCode(getVerts());
+        return result;
+    }
+
     public void translate (Vector3 factor){
         for (int i = 0; i < 3; i++) {
             verts[i] = verts[i].addVector(factor);
@@ -89,10 +107,17 @@ public class Triangle {
     }
 
     public boolean inBounds(Vector3 minBounds, Vector3 maxBounds){
-        Vector3 myPos = getPosition();
-        if(myPos.getX()>=minBounds.getX()&&myPos.getX()<maxBounds.getX()){
-            if (myPos.getY()>=minBounds.getY()&&myPos.getY()<maxBounds.getY()) {
-                if (myPos.getZ() >= minBounds.getZ() && myPos.getZ() < maxBounds.getZ())
+//        Vector3 myPos = this.getPosition();
+//        if(myPos.getX()>=minBounds.getX()&&myPos.getX()<=maxBounds.getX()){
+//            if (myPos.getY()>=minBounds.getY()&&myPos.getY()<=maxBounds.getY()) {
+//                if (myPos.getZ() >= minBounds.getZ() && myPos.getZ() <= maxBounds.getZ())
+//                    return true;
+//            }
+//        }
+
+        if(getPosition().getX()>=minBounds.getX()&&getPosition().getX()<=maxBounds.getX()){
+            if (getPosition().getY()>=minBounds.getY()&&getPosition().getY()<=maxBounds.getY()) {
+                if (getPosition().getZ() >= minBounds.getZ() && getPosition().getZ() <= maxBounds.getZ())
                     return true;
             }
         }

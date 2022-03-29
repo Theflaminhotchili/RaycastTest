@@ -33,7 +33,7 @@ public class OctreeNode {
         }
     }
 
-    public void setMyBranches(ArrayList<OctreeNode> myBranches) {
+    public void setMyBranches(ArrayList<SpatialOctreeNode> myBranches) {
         this.myBranches = new OctreeNode[myBranches.size()];
         for (int i = 0; i < myBranches.size(); i++) {
             this.myBranches[i] = myBranches.get(i);

@@ -156,6 +156,8 @@ public class Mesh {
             maxCoords.addVector(translation);
             minCoords.addVector(translation);
             //System.out.println(tris[i]);
+//            System.out.println(maxCoords);
+//            System.out.println(minCoords);
         }
         new SpatialOctreeNode(minCoords,maxCoords,this);
 

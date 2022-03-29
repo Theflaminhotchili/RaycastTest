@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 public class SpatialOctreeNode extends OctreeNode{
@@ -24,67 +25,126 @@ public class SpatialOctreeNode extends OctreeNode{
 
     }
 
+    public SpatialOctreeNode(OctreeNode parent, Triangle triangle){
+        super();
+        setType(IS_LEAF);
+        myTris = new ArrayList<Triangle>();
+        myTris.add(triangle);
+    }
+
     public SpatialOctreeNode(Vector3 minCoords, Vector3 MaxCoords, Mesh trisSource){
         super();
         setType(IS_TRUNK);
-        myTris = trisSource.triangles;
+        myTris = new ArrayList<Triangle>(trisSource.triangles);
         this.minCoords = minCoords;
         this.maxCoords = MaxCoords;
         extents = maxCoords.subtractVector(minCoords);
         navigateDown();
+        System.out.println(myTris.size());
 
 
     }
 
-    public void navigateDown(){
+    public ArrayList<Triangle> getMyTris() {
+        return myTris;
+    }
+
+    public ArrayList<Triangle> navigateDown(){
+        if(myTris.size()<9){
+            ArrayList<SpatialOctreeNode> branches = new ArrayList<SpatialOctreeNode>();
+            for (int i = 0; i < myTris.size(); i++) {
+                branches.add(new SpatialOctreeNode(this, myTris.get(i)));
+            }
+            setMyBranches(branches);
+            System.gc();
+            System.out.println("aooa");
+            return myTris;
+        }
+
         if(myTris.size()<=1){
             setType(IS_LEAF);
             System.out.println("aoaoa");
-            return;
-        }
+            return myTris;
+        }else {
 
-        Vector3 midpoint = minCoords.addVector(extents.multiplyScalar(0.5));
-        ArrayList<OctreeNode> branches = new ArrayList<OctreeNode>();
-        branches.add(new SpatialOctreeNode(this,minCoords,midpoint));
-        branches.add(new SpatialOctreeNode(this,minCoords.addVector(new Vector3(extents.getX()/2.0,0,0)),
-                        midpoint.addVector(new Vector3(extents.getX()/2.0,0,0))));
-        branches.add(new SpatialOctreeNode(this,minCoords.addVector(new Vector3(0,extents.getY()/2.0,0)),
-                        midpoint.addVector(new Vector3(0,extents.getY()/2.0,0))));
-        branches.add(new SpatialOctreeNode(this,minCoords.addVector(new Vector3(extents.getX()/2.0,extents.getY()/2.0,0)),
-                        midpoint.addVector(new Vector3(extents.getX()/2.0,extents.getY()/2.0,0))));
-        branches.add(new SpatialOctreeNode(this,midpoint,maxCoords));
-        branches.add(new SpatialOctreeNode(this,midpoint.addVector(new Vector3(extents.getX()/2.0,0,0)),
-                        maxCoords.addVector(new Vector3(extents.getX()/2.0,0,0))));
-        branches.add(new SpatialOctreeNode(this,midpoint.addVector(new Vector3(0,extents.getY()/2.0,0)),
-                        maxCoords.addVector(new Vector3(0,extents.getY()/2.0,0))));
-        branches.add(new SpatialOctreeNode(this,midpoint.addVector(new Vector3(extents.getX()/2.0,extents.getY()/2.0,0)),
-                        maxCoords.addVector(new Vector3(extents.getX()/2.0,extents.getY()/2.0,0))));
+            //Vector3 midpoint = minCoords.addVector(extents.multiplyScalar(1/2.0));
+            ArrayList<Triangle> tris = new ArrayList<Triangle>(myTris);
+            ArrayList<SpatialOctreeNode> branches = new ArrayList<SpatialOctreeNode>();
+
+            branches.add(new SpatialOctreeNode(this, minCoords, minCoords.addVector(extents.multiplyScalar(1/2.0))));
+            branches.add(new SpatialOctreeNode(this, minCoords.addComponents(extents.getX() / 2.0, 0, 0),
+                    minCoords.addVector(extents.multiplyScalar(1/2.0)).addComponents(extents.getX() / 2.0, 0, 0)));
+            branches.add(new SpatialOctreeNode(this, minCoords.addComponents(0, extents.getY() / 2.0, 0),
+                    minCoords.addVector(extents.multiplyScalar(1/2.0)).addComponents(0, extents.getY() / 2.0, 0)));
+            branches.add(new SpatialOctreeNode(this, minCoords.addComponents(extents.getX() / 2.0, extents.getY() / 2.0, 0),
+                    minCoords.addVector(extents.multiplyScalar(1/2.0)).addComponents(extents.getX() / 2.0, extents.getY() / 2.0, 0)));
+            branches.add(new SpatialOctreeNode(this, minCoords.addVector(extents.multiplyScalar(1/2.0)), maxCoords));
+            branches.add(new SpatialOctreeNode(this, minCoords.addComponents(0, 0, extents.getZ() / 2.0),
+                    minCoords.addVector(extents.multiplyScalar(1/2.0)).addComponents(0, 0, extents.getZ() / 2.0)));
+            branches.add(new SpatialOctreeNode(this, minCoords.addComponents(0, extents.getY() / 2.0, extents.getZ() / 2.0),
+                    minCoords.addVector(extents.multiplyScalar(1/2.0)).addComponents(0, extents.getY() / 2.0, extents.getZ() / 2.0)));
+            branches.add(new SpatialOctreeNode(this, minCoords.addComponents(extents.getX() / 2.0, 0, extents.getZ() / 2.0),
+                    minCoords.addVector(extents.multiplyScalar(1/2.0)).addComponents(extents.getX() / 2.0, 0, extents.getZ() / 2.0)));
+
+//        branches.add(new SpatialOctreeNode(this,minCoords,midpoint));
+//        branches.add(new SpatialOctreeNode(this,minCoords.addVector(new Vector3(extents.getX()/2.0,0,0)),
+//                        midpoint.addVector(new Vector3(extents.getX()/2.0,0,0))));
+//        branches.add(new SpatialOctreeNode(this,minCoords.addVector(new Vector3(0,extents.getY()/2.0,0)),
+//                        midpoint.addVector(new Vector3(0,extents.getY()/2.0,0))));
+//        branches.add(new SpatialOctreeNode(this,minCoords.addVector(new Vector3(extents.getX()/2.0,extents.getY()/2.0,0)),
+//                        midpoint.addVector(new Vector3(extents.getX()/2.0,extents.getY()/2.0,0))));
+//        branches.add(new SpatialOctreeNode(this,midpoint,maxCoords));
+//        branches.add(new SpatialOctreeNode(this,midpoint.addVector(new Vector3(extents.getX()/2.0,0,0)),
+//                        maxCoords.addVector(new Vector3(extents.getX()/2.0,0,0))));
+//        branches.add(new SpatialOctreeNode(this,midpoint.addVector(new Vector3(0,extents.getY()/2.0,0)),
+//                        maxCoords.addVector(new Vector3(0,extents.getY()/2.0,0))));
+//        branches.add(new SpatialOctreeNode(this,midpoint.addVector(new Vector3(extents.getX()/2.0,extents.getY()/2.0,0)),
+//                        maxCoords.addVector(new Vector3(extents.getX()/2.0,extents.getY()/2.0,0))));
 
 
-
-        for (int i = 7; i >= 0; i--) {
-            if(!((SpatialOctreeNode)branches.get(i)).setMyTris(myTris)){
-                branches.remove(i);
-            }else{
-                ((SpatialOctreeNode) branches.get(i)).navigateDown();
+            for (SpatialOctreeNode s : branches) {
+                if (s.setMyTris(tris)) {
+                    for (Triangle t : s.getMyTris()) {
+                        tris.remove(t);
+                    }
+                    //excludeList.addAll(s.getMyTris());
+                    //s.navigateDown();
+                }
+            }
+            branches.removeIf(spatialOctreeNode -> spatialOctreeNode.getMyTris().size() < 1);
+            setMyBranches(branches);
+            System.gc();
+            for (OctreeNode o:myBranches) {
+                ((SpatialOctreeNode)o).navigateDown();
             }
         }
-        System.out.println(branches.size());
-        setMyBranches(branches);
-
+        return myTris;
     }
 
     public boolean setMyTris(ArrayList<Triangle> tris){
         myTris = new ArrayList<Triangle>();
         boolean output = false;
-        for (Triangle t: tris) {
+        for (int i = 0; i < tris.size(); i++) {
             //System.out.println(t.getPosition()+""+(minCoords+" "+maxCoords));
-            if(t.inBounds(minCoords,maxCoords)){
-                myTris.add(t);
+            if(tris.get(i).inBounds(minCoords,maxCoords)){
+                myTris.add(tris.get(i));
                 output = true;
             }
         }
+        //this.tris = new ArrayList<Triangle>(myTris);
         return output;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpatialOctreeNode that = (SpatialOctreeNode) o;
+        return Objects.equals(extents, that.extents) && minCoords.equals(that.minCoords) && maxCoords.equals(that.maxCoords);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(extents, minCoords, maxCoords);
+    }
 }
