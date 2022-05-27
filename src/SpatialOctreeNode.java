@@ -10,6 +10,8 @@ public class SpatialOctreeNode extends OctreeNode{
     Vector3 extents;
     Vector3 minCoords;
     Vector3 maxCoords;
+    Vector3[] vertices;
+    BoundingVolume myBV;
 
     public SpatialOctreeNode(){
         super();
@@ -30,6 +32,8 @@ public class SpatialOctreeNode extends OctreeNode{
         setType(IS_LEAF);
         myTris = new ArrayList<Triangle>();
         myTris.add(triangle);
+        vertices = triangle.getVerts();
+        myBV = new BoundingVolume(vertices);
     }
 
     public SpatialOctreeNode(Vector3 minCoords, Vector3 MaxCoords, Mesh trisSource){
@@ -41,12 +45,22 @@ public class SpatialOctreeNode extends OctreeNode{
         extents = maxCoords.subtractVector(minCoords);
         navigateDown();
         System.out.println(myTris.size());
+        makeVertsArray();
+        myBV = new BoundingVolume(vertices);
 
 
     }
 
     public ArrayList<Triangle> getMyTris() {
         return myTris;
+    }
+
+    private void makeVertsArray(){
+        ArrayList<Vector3> verts = new ArrayList<Vector3>();
+        for (int i = 0; i < myTris.size(); i++) {
+            verts.addAll(myTris.get(i).getVertsArrayList());
+        }
+        vertices = verts.toArray(new Vector3[0]);
     }
 
     public ArrayList<Triangle> navigateDown(){
@@ -123,16 +137,25 @@ public class SpatialOctreeNode extends OctreeNode{
 
     public boolean setMyTris(ArrayList<Triangle> tris){
         myTris = new ArrayList<Triangle>();
+        ArrayList<Vector3> verts = new ArrayList<Vector3>();
         boolean output = false;
         for (int i = 0; i < tris.size(); i++) {
             //System.out.println(t.getPosition()+""+(minCoords+" "+maxCoords));
             if(tris.get(i).inBounds(minCoords,maxCoords)){
                 myTris.add(tris.get(i));
+                verts.addAll(tris.get(i).getVertsArrayList());
                 output = true;
             }
         }
-        //this.tris = new ArrayList<Triangle>(myTris);
+        vertices = verts.toArray(new Vector3[0]);
+
+        myBV = new BoundingVolume(vertices);
+
         return output;
+    }
+
+    public BoundingVolume getMyBV() {
+        return myBV;
     }
 
     @Override

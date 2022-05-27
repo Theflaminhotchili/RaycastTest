@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class Raycast {
     Vector3 origin, direction;
+    PriorityQueue<HitQueueElement> meshQ;
 
     public Raycast(){
         origin=new Vector3(0,0,0);
@@ -265,8 +267,59 @@ public class Raycast {
 
     }
 
-    public double MollerTrumboreIntersection(Triangle tri){
-        return 0;
+    public Mesh getClosestObject(SpatialOctreeNode obj){
+        double tHit = Double.POSITIVE_INFINITY;
+        BoundingVolume bv = obj.getMyBV();
+
+        double[][] dValues = bv.getdValues();
+
+        double[] preCompNums = new double[7];//Precomputing the numerators for each plane. More RAM, less CPU
+        double[] preCompDenoms = new double[7]; //Same but for denominators
+
+        for (int i = 0; i < 7; i++) {
+            preCompNums[i] = BoundingVolume.planeSetNormals[i].dotProduct(origin);
+            preCompDenoms[i] = BoundingVolume.planeSetNormals[i].dotProduct(direction);
+        }
+
+
+
+        double tNear = 0;
+        double tFar = Double.POSITIVE_INFINITY;
+        int planeIndex;
+
+        Mesh hitObject;
+
+        double tNearExtents, tFarExtents;
+        boolean intersectTestSuccess = true;
+        for (int i = 0; i < 7; i++) {
+            if(preCompDenoms[i]>0) {
+                tNearExtents = (dValues[i][0] - preCompNums[i]) / preCompDenoms[i];
+                tFarExtents = (dValues[i][1] - preCompNums[i]) / preCompDenoms[i];
+            }else{
+                tFarExtents = (dValues[i][0] - preCompNums[i]) / preCompDenoms[i];
+                tNearExtents = (dValues[i][1] - preCompNums[i]) / preCompDenoms[i];
+            }
+            if(tNearExtents>tNear){tNear=tNearExtents;planeIndex=i;}
+            if(tFarExtents<tFar){tFar=tFarExtents;}
+            if(tNear>tFar){intersectTestSuccess=false;}
+        }
+//        if(!intersectTestSuccess||tFar<0){return null;}
+//
+//        tHit = tFar;
+//
+//        //Keep Working
+//        meshQ.add(new HitQueueElement(obj, tHit));
+//
+//        while (!meshQ.isEmpty()&&meshQ.peek().t<tHit){
+//            SpatialOctreeNode node = meshQ.peek().node;
+//            meshQ.poll();
+//            if(node.getType()==OctreeNode.IS_LEAF){
+//                for (
+//            }
+//        }
+
+
+        return null;
     }
 
 

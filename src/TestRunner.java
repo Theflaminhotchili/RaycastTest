@@ -33,6 +33,7 @@ public class TestRunner {
         Light bigLight = new Light(50.0,new Vector3(0,-50,-50));
         imgWidth = 1920.0;
         imgHeight = 1080.0;
+        focalLength = 1.0;
         BufferedImage img = new BufferedImage((int)imgWidth, (int)imgHeight, BufferedImage.TYPE_INT_RGB );
         //sphereList = new ArrayList<Sphere>();
         //sphereList.add(new Sphere(new Vector3(-12,0,40),5, red));
@@ -49,7 +50,7 @@ public class TestRunner {
         //meshList.add(new Mesh("src/cube.obj",gray,new Vector3(5,-1,20),
         //new Vector3(30,45,15),new Vector3(1,0.5,1)));
 
-        meshList.add(new Mesh("src/rabbit.obj",blue,new Vector3(0,0,0),
+        meshList.add(new Mesh("src/cube.obj",blue,new Vector3(0,0,30),
                 new Vector3(0,0,0),new Vector3(1,1,1)));
 
         System.out.println(new Vector3(22,18,79).createRotationMatrix());
@@ -58,7 +59,7 @@ public class TestRunner {
             for (double colIndx = 0; colIndx < imgWidth; colIndx++) {
                 double xPos = (2.0 / imgWidth) * (colIndx - imgWidth / 2.0);
                 double yPos = (1.125 / imgHeight) * (rowIndx - imgHeight / 2.0);
-                Raycast cast = new Raycast(origin, new Vector3(xPos, yPos, 1.0));
+                Raycast cast = new Raycast(origin, new Vector3(xPos, yPos, focalLength));
 
                 if (cast.checkObjectHit(sphereList,meshList)==false) {
                     img.setRGB((int) colIndx, (int) rowIndx, background.getRGB());

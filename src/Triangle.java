@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -37,6 +38,8 @@ public class Triangle {
     public Vector3[] getVerts() {
         return verts;
     }
+
+    public ArrayList<Vector3> getVertsArrayList(){return new ArrayList<Vector3>(Arrays.asList(verts));}
 
     public Material getMaterial() {
         return material;
